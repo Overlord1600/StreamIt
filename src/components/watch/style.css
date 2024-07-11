@@ -1,0 +1,130 @@
+body {
+  background-color: #141414;
+  color: #fff;
+}
+.singleHeading {
+  background-color: #1e272d;
+  padding: 15px 0;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.singleHeading h1 {
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.singleHeading span {
+  word-spacing: 5px;
+  margin-left: 10px;
+}
+.singlePage .container {
+  max-width: 80%;
+  margin: auto;
+}
+video {
+  width: 100%;
+  margin: 50px 0;
+}
+.singlePage h3 {
+  font-weight: 400;
+}
+.singlePage p {
+  line-height: 25px;
+  margin-top: 20px;
+}
+.soical {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 30px 0;
+  border-top: 2px solid #575757;
+  border-bottom: 1px solid #575757;
+  padding: 8px 0;
+}
+.soical img {
+  margin-left: 10px;
+}
+.watchlaterbutton {
+  margin-top: 15px;
+  background: #e50813;
+  outline: none;
+  border: none;
+  color: #fff;
+  padding: 12px 40px;
+  font-weight: 500;
+  font-size: 17px;
+} 
+
+.watchlaterbutton:hover {
+  background-color: #f2030fad;
+}
+
+.watchlater {
+  margin-top: 30px;
+}
+
+.title {
+  margin-bottom: 30px;
+  font-size: 90px;
+  text-transform: uppercase;
+  font-weight: 800;
+  background-image: url("../../../public/images/texure.jpg");
+  background-repeat: repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+.rating {
+  margin-left: 110px;
+  margin-top: 40px;
+}
+.desc {
+  margin-bottom: 40px;
+}
+
+.description {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+/* style.css */
+.singlePage {
+  padding: 20px;
+}
+
+.singleHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-this{
+  display: flex;
+  flex-direction: column; /* This will be changed to row */
+  gap: 20px;
+}
+
+.para-rating-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start; /* Adjusts vertical alignment of items */
+}
+
+.para {
+  flex: 1;
+}
+
+.rating-cont {
+  justify-content: end;
+  margin-top: 230px;
+}
+.soical {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

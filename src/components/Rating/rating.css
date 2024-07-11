@@ -1,0 +1,58 @@
+.rating-card {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+    color: #a31b1b;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+  }
+  
+  .rating-card-info {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 10px;
+  }
+  
+  .rating-value {
+    font-size: 36px;
+    color: red;
+    margin-right: 10px;
+    margin-left: 0px;
+    
+  }
+  
+  .rating-reviews {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .rating-card-stars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .star-button {
+    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 36px;
+    color: red;
+    cursor: pointer;
+    margin: 0 2px; /* Reduced margin between stars */
+  }
+  
+  .star-button.active {
+    color: red;
+  }
+  
+  .rating-card-feedback {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+  }
+  
