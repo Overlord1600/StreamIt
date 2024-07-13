@@ -23,57 +23,23 @@ const Homes = () => {
             },
           }
         );
-          // await Promise.all(
-          // response.data.map(async (item) => {
-          //  console.log(item._id);
-            // if (item.cover.includes("firebasestorage")) {
-              
-            // } else {
-            //   const coverRef = ref(storage, `images/${item.cover}`);
-            //   item.cover = await getDownloadURL(coverRef);
-            //   await axios.put(`http://localhost:8000/api/movie/${item._id}`, {
-            //     ...item,
-            //   },{
-            //     headers: {
-            //       Authorization:
-            //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODU1NjRhMzU1YWJlZDQwZWYwMjQ4ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcyMDAxNDYxNH0.0EPCnmBCR_SD0Kqi6G6bsZE2wQS5PMpWYAG5LCQoNRE",
-            //     },
-            //   });
-              
-            // }
-            // if(item.video.includes("googleapis")){
-            
-            // } else {
-            //   const videoRef = ref(storage,`videos/${item.video}`)
-            //   item.video = await getDownloadURL(videoRef);
-            //   await axios.put(`http://localhost:8000/api/movie/${item._id}`, {
-            //     ...item,
-            //   }, {
-            //     headers: {
-            //       Authorization: `Bearer ${token}`,
-            //     },
-            //   });
-              
-            // }
-            // if(item.titleImage.includes("googleapis")){
-             
-            // } else {
-            //   const titleImage = ref(storage,`images/${item.titleImage}`)
-            //   item.titleImage = await getDownloadURL(titleImage);
-            //   await axios.put(`http://localhost:8000/api/movie/${item._id}`, {
-            //     ...item,
-            //   }, {
-            //     headers: {
-            //       Authorization: `Bearer ${token}`,
-            //     },
-            //   });
-            // }
-          //   return item;
-          // })
-       // );
+        await Promise.all(response.data.map(async (item,index) => {
+          if(!item.video.includes("googleapis")){
+            const vidRef = ref(storage,`videos/${item.video}`);
+            item.video = await getDownloadURL(vidRef);
+              await axios.put(`http://localhost:8000/api/movie/${item._id}`, {
+                ...item,
+              }, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+          }
+        }));
         setItems(response.data); 
 
       } catch (error) {
+        console.log(error);
       }
     };
     fetchData();

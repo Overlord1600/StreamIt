@@ -1,35 +1,38 @@
-const movie = require("../models/movie");
+
+const { json } = require("express");
 const movieModel = require("../models/movie");
 const router = require("express").Router();
 const verifyToken = require("../verifyToken");
 
 router.post("/", verifyToken, async (req, res) => {
-  
-    try {
-      const newMovie = new movieModel(req.body);
-      res.status(200).json(await newMovie.save());
-    } catch (err) {
-      res.status(500).json(err);
+    if(req.user.isAdmin){
+      try {
+        const newMovie = new movieModel(req.body);
+        res.status(200).json(await newMovie.save());
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(401).json("Admin required");
     }
+    
  
   
 });
 
 router.put("/:id", verifyToken, async (req, res) => {
-
-    try {
-      const updatedMovie = await movieModel.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
-      res.status(200).json(updatedMovie);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  
+      try {
+        const updatedMovie = await movieModel.findByIdAndUpdate(
+          req.params.id,
+          {
+            $set: req.body,
+          },
+          { new: true }
+        );
+        res.status(200).json(updatedMovie);
+      } catch (err) {
+        res.status(500).json(err);
+      }
 });
 
 router.delete("/:id", verifyToken, async (req,res) => {
@@ -70,7 +73,7 @@ router.get("/random", verifyToken, async (req, res) => {
 });
 
 router.get("/top-rated", verifyToken, async (req, res) => {
-  const typeQuery = req.query.type; // Get the type query parameter
+  const typeQuery = req.query.type; 
   const genreQuery = req.query.genre;
   
   try {
@@ -98,11 +101,11 @@ router.get("/recent", verifyToken, async (req, res) => {
     if (typeQuery) {
       movies = await movieModel.find({ type: typeQuery })
         .sort({ date: -1 })
-        .limit(5); // Adjust the limit as necessary
+        .limit(5); 
     } else {
       movies = await movieModel.find()
         .sort({ date: -1 })
-        .limit(5); // Adjust the limit as necessary
+        .limit(5); 
     }
     res.status(200).json(movies);
   } catch (err) {

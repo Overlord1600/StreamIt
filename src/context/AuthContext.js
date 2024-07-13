@@ -7,24 +7,27 @@ const AuthProvider = ({ children }) => {
     const storedAuth = localStorage.getItem('auth');
     return storedAuth 
       ? JSON.parse(storedAuth) 
-      : { id: '', username: '', token: '', email: '', isAdmin: false };
+      : { id: '', username: '', token: '', email: '', isAuth: false };
   });
 
-  const setAuthInfo = (id, username, token, email, isAdmin) => {
-    const newAuthState = { id, username, token, email, isAdmin };
+  const setAuthInfo = (id, username, token, email, isAuth) => {
+    const newAuthState = { id, username, token, email, isAuth };
     setAuthState(newAuthState);
     localStorage.setItem('auth', JSON.stringify(newAuthState));
   };
-
+  const clearAuthInfo = () => {
+    setAuthState({ id: '', username: '', token: '', email: '', isAuth: false, });
+    localStorage.removeItem('auth');
+  };
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth');
     if (storedAuth && !authState.token) {
       setAuthState(JSON.parse(storedAuth));
     }
-  }, [authState.token]);
+  }, [authState]);
 
   return (
-    <AuthContext.Provider value={{ ...authState, setAuthInfo }}>
+    <AuthContext.Provider value={{ ...authState, setAuthInfo ,clearAuthInfo}}>
       {children}
     </AuthContext.Provider>
   );

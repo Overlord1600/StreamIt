@@ -24,7 +24,7 @@ router.put("/:id", verifyToken, async (req, res) => {
       res.status(500).json(err);
     }
   } else {
-    req.status(500).json("Erro occured");
+    req.status(500).json("Error occured");
   }
 });
 

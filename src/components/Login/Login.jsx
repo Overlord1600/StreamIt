@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -9,17 +8,24 @@ const Login = () => {
   const { setAuthInfo } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login', { email, password });
-      const { userData } = response.data;
-      setAuthInfo(userData._id,userData.username, response.data.token, userData.email,true);
+      const  {userData} = response.data;
+      setAuthInfo(userData._id, userData.username, response.data.token, userData.email, true);
       history.push('/');
     } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
+      if (error.response && error.response.status === 401) {
+        setError('Invalid email or password. Please try again.');
+      } else {
+        setError('Login failed. Please try again later.');
+      }
     }
   };
 
@@ -45,8 +51,9 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Sign In</button>
+          {error && <p className="error-message">{error}</p>}
           <div className="signup-link">
-            New to MovieApp? <Link to="/register">Sign up now</Link>
+            New to StreamIt? <Link to="/register">Sign up now</Link>
           </div>
         </form>
       </div>

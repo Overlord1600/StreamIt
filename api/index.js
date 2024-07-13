@@ -8,6 +8,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const movieRouter = require("./routes/movie");
 const listRouter = require("./routes/list");
+const path = require('path');
 
 dotenv.config();
 mongoose
@@ -22,6 +23,7 @@ app.use(bodyparser.json({ limit: "2mb" }));
 app.use(cors());
 
 app.use(express.json());
+app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/movie", movieRouter);

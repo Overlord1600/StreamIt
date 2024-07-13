@@ -5,6 +5,19 @@ const JWT = require("jsonwebtoken");
 
 router.post("/register", async (req, res) => {
   try {
+    
+    const existingUser = await userModel.findOne({ 
+      $or: [
+        { email: req.body.email }, 
+        { username: req.body.username }
+      ]
+    });
+    
+    if (existingUser) {
+      return res.status(400).json("Email or username already exists");
+    }
+    
+    
     const newUser = new userModel({
       username: req.body.username,
       email: req.body.email,
@@ -12,23 +25,21 @@ router.post("/register", async (req, res) => {
         req.body.password,
         process.env.KEY
       ).toString(),
-      isAdmin:req.body.isAdmin ? req.body.isAdmin : false
+      isAdmin: req.body.isAdmin ? req.body.isAdmin : false
     });
     
     const user = await newUser.save();
-   
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
     const foundUser = await userModel.findOne({ email: req.body.email });
     if (!foundUser) {
-      req.status(404).json("Invalid Credentials");
+      res.status(404).json("Invalid Credentials");
     } else {
       const bytes = crypto.AES.decrypt(foundUser.password, process.env.KEY);
       const userPassword = bytes.toString(crypto.enc.Utf8);

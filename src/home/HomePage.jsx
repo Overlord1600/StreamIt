@@ -15,6 +15,7 @@ const HomePage = () => {
   const [trending, setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -26,7 +27,7 @@ const HomePage = () => {
 
         const type = choice === "Movie" ? "Movie" : "Series";
 
-        const movieListUrl = `http://localhost:8000/api/movieList/?type=${type}`;
+        
         const topRatedUrl = `http://localhost:8000/api/movie/top-rated?type=${type}`;
         const recentUrl = `http://localhost:8000/api/movie/recent?type=${type}`;
         const trendingUrl = `http://localhost:8000/api/movie/random?type=${type}`;

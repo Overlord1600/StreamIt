@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import {AuthContext} from "../../context/AuthContext"
+import { AuthContext } from '../../context/AuthContext';
 import './register.css';
 
 const Register = () => {
-    const { setAuthInfo } = useContext(AuthContext);
+  const { setAuthInfo } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,17 +14,23 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError(null);
     try {
       const response = await axios.post('http://localhost:8000/api/auth/register', {
         email,
         username,
         password
       });
-      //setAuthInfo(username, email, response.data.token);
+      const  userData  = response.data;
+   
       history.push('/login');
     } catch (err) {
       console.error('Register error:', err);
-      setError('Registration failed. Please try again.');
+      if (err.response && err.response.status === 400) {
+        setError('Email or username already exists.');
+      } else {
+        setError('Registration failed. Please try again later.');
+      }
     }
   };
 

@@ -6,16 +6,6 @@ const verifyToken = require("../verifyToken");
 router.post("/", verifyToken, async (req, res) => {
   if (req.user.isAdmin) {
     try {
-      // const contentData = await Promise.all(req.body.content.map(async (item) => {
-      //   const response = await axios.get(`http://localhost:8000/api/movie/find/${item}`,{headers: {
-      //     Authorization:
-      //       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODU1NjRhMzU1YWJlZDQwZWYwMjQ4ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcyMDAxNDYxNH0.0EPCnmBCR_SD0Kqi6G6bsZE2wQS5PMpWYAG5LCQoNRE",
-      //   },});
-      //   return response.data;
-      // }));
-      // console.log('codntetnfdfsfsvdvvdvdfvbbfbvfbfdxbffbvbbbgbf');
-      // const newData = [...contentData];
-
       const newList = new listModel({
         title: req.body.title,
         type: req.body.type,
@@ -33,8 +23,6 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-// DELETE
-
 router.delete("/:id", verifyToken, async (req, res) => {
   if (req.user.isAdmin) {
     try {
@@ -47,8 +35,6 @@ router.delete("/:id", verifyToken, async (req, res) => {
     res.status(403).json("You are not allowed!");
   }
 });
-
-// GET
 
 router.get("/", verifyToken, async (req, res) => {
   const typeQuery = req.query.type;

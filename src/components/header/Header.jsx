@@ -2,23 +2,29 @@ import React, { useContext, useState } from "react";
 import "./header.css";
 import { ChoiceContext } from "../../context/ChoiceContext";
 import { Link, useHistory } from "react-router-dom";
-import Loader from "../Loader/Loader"; // Ensure you have the Loader component
+import Loader from "../Loader/Loader"; 
+import { AuthContext } from "../../context/AuthContext";
+import UserContext from "../../context/UserContext";
 
 const Header = () => {
   const { choice, setChoice } = useContext(ChoiceContext);
   const [Mobile, setMobile] = useState(false);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false); 
   const history = useHistory();
+  const {setCurrentUser} = useContext(UserContext);
+  const {clearAuthInfo} = useContext(AuthContext);
 
   const handleLogout = async () => {
-    setLoading(true); // Set loading to true when logout starts
+    setLoading(true); 
     try {
-      localStorage.clear();
+      setChoice("Movie");
+      setCurrentUser(null);
+      clearAuthInfo();
       history.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      setLoading(false); // Set loading to false after logout completes
+      setLoading(false); 
     }
   };
 
@@ -53,7 +59,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {loading && <Loader />} {/* Display loader if loading is true */}
+      {loading && <Loader />}
     </>
   );
 }

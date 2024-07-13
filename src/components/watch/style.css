@@ -11,6 +11,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+.ep{
+  margin-top: 30px;
+  inherits: false;
+  align-items: start;
+  justify-content: start;
+}
 .singleHeading h1 {
   text-transform: uppercase;
   font-size: 30px;

@@ -5,14 +5,18 @@ import axios from "axios";
 import RatingCard from "../Rating/Rating";
 import { AuthContext } from "../../context/AuthContext";
 import UserContext from "../../context/UserContext";
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, TelegramShareButton, TelegramIcon } from 'react-share'
 import Loader from "../Loader/Loader";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const SinglePage = () => {
   const [loading, setLoading] = useState(true);
   const [watchLater, setWatchLater] = useState(false);
-  const { movieId } = useParams();
+  const { movieId, type } = useParams();
   const { id, token } = useContext(AuthContext);
   const [item, setItem] = useState(null);
+  const [items, setItems] = useState([]);
+  const [seriesTitle, setSeriesTitle] = useState("");
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -38,6 +42,14 @@ const SinglePage = () => {
     };
     fetchData();
   }, [movieId, currentUser, token]);
+
+  useEffect(() => {
+    if (item) {
+      setItems(item.episodes || []);
+      setSeriesTitle(item.name);
+      console.log(item);
+    }
+  }, [item]);
 
   const handleWatchLater = async () => {
     setLoading(true);
@@ -70,17 +82,25 @@ const SinglePage = () => {
           <div>
             <section className='singlePage'>
               <div className='singleHeading'>
-                <h1>{item.name} </h1> <span> | {item.time} | </span> <span> HD </span>
+                <h1>{item.name}</h1> <span> | {item.time} | </span> <span> HD </span>
               </div>
               <div className='container'>
-                <video src={item.video} controls></video>
+              <video src={item.video} controls></video>
                 <div className='para-rating-container'>
                   <div className='para'>
                     <h1 className="title">{item.name}</h1>
                     <h1 className="description">{item.desc}</h1>
-                    <h1>Ratings : {item.totalRating}/5 ({item.rating.length} ratings)</h1>
-                    <h1>Tags : {item.tags}</h1>
-                    <h1>Released on : {item.date}</h1>
+                    <h1>Ratings: {item.totalRating}/5 ({item.rating.length} ratings)</h1>
+                    <h1>Tags: {item.tags}</h1>
+                    <h1>Released on: {item.date}</h1>
+                    {type === "Series" && (
+                      <div className="ep">
+                        <h2>Watch Episodes now</h2>
+                        <Link to={{ pathname: "/episode", state: { items, seriesTitle, movieId } }}>
+                          <button className="watchlaterbutton">Watch Episode</button>
+                        </Link>
+                      </div>
+                    )}
                     {watchLater ? (
                       <div>
                         <h1 className="watchlater">Added to watch later</h1>
@@ -94,20 +114,52 @@ const SinglePage = () => {
                   </div>
                   <div className="rating-cont">
                     <h2 className="rating">Give feedback</h2>
-                    <RatingCard movie={item} loadingState={setLoading}></RatingCard>
+                    <RatingCard movie={item} loadingState={setLoading} />
                   </div>
                 </div>
                 <div className='soical'>
-                  <h3>Share : </h3>
-                  <img src='https://img.icons8.com/color/48/000000/facebook-new.png' alt="Facebook" />
-                  <img src='https://img.icons8.com/fluency/48/000000/twitter-circled.png' alt="Twitter" />
-                  <img src='https://img.icons8.com/fluency/48/000000/linkedin-circled.png' alt="LinkedIn" />
+                  <h3>Share:</h3>
+                 
+                                        <i className="px-1">
+                                            <WhatsappShareButton
+                                                url={window.location.href}
+                                                quote={item.name}
+                                            >
+                                                <WhatsappIcon logoFillColor="white" size={53} round={true} />
+                                            </WhatsappShareButton>
+                                        </i>
+                                        <i className="px-1">
+                                            <FacebookShareButton
+                                                url={window.location.href}
+                                                quote={item.name}
+                                            >
+                                                <FacebookIcon logoFillColor="white" size={53} round={true} />
+                                            </FacebookShareButton>
+                                        </i>
+                                        <i className="px-1">
+                                            <TwitterShareButton
+                                                url={window.location.href}
+                                                quote={item.name}
+                                            >
+                                                <TwitterIcon logoFillColor="white" size={53} round={true} />
+                                            </TwitterShareButton>
+                                        </i>
+                                        <i className="px-1">
+                                            <TelegramShareButton
+                                                url={window.location.href}
+                                                quote={item.name}
+                                            >
+                                                <TelegramIcon logoFillColor="white" size={53} round={true} />
+                                            </TelegramShareButton>
+                                        </i>
+                                    
                 </div>
               </div>
             </section>
           </div>
         )
       )}
+      
     </>
   );
 };

@@ -13,6 +13,7 @@ const RatingCard = ({ movie, loadingState }) => {
   useEffect(() => {
     const fetchData = async () => {
       loadingState(true);
+      console.log(currentUser);
       try {
         if (currentUser) {
           const userRatings = currentUser.ratings;

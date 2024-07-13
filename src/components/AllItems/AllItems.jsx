@@ -7,8 +7,8 @@ const MoviesGrid = ({ movies , title }) => {
     <>
     <h1 className="listtitle">{title}</h1>
     <div className="movies-grid">
-      {movies.map((movie) => (
-        <Ucard key={movie._id} item={movie} />
+      {movies.map((movie,index) => (
+        <Ucard key={movie._id+index} item={movie} />
       ))}
     </div>
     </>

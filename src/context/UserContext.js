@@ -20,7 +20,6 @@ export const UserProvider = ({ children }) => {
       return null;
     }
   };
-
   const [currentUser, setCurrentUser] = useState(() => {
     const fetchUser = async () => {
       const user = await fetchCurrentUser();
@@ -29,15 +28,15 @@ export const UserProvider = ({ children }) => {
     fetchUser();
   });
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const user = await fetchCurrentUser();
-  //     setCurrentUser(user);
-  //   };
+  useEffect(() => {
+   const fetchUser = async () => {
+    const user = await fetchCurrentUser();
+    setCurrentUser(user);
+   }
+   fetchUser();
+  },[token,id]);
 
-  //   fetchUser();
-  // }, [token, id]);
-
+  
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}
